@@ -1,12 +1,18 @@
-# Use OpenJDK base image
-FROM openjdk:17-jdk-slim
+# Use official Python image
+FROM python:3.11-slim
 
-# Create working directory
+# Set working directory
 WORKDIR /app
 
-# Copy the JAR file into the container
-COPY target/cart-app-1.0-SNAPSHOT.jar cart-app.jar
+# Copy files
+COPY . .
 
-# Run the application
-ENTRYPOINT ["java", "-jar", "cart-app.jar"]
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Expose Flask port
+EXPOSE 5000
+
+# Run the app
+CMD ["python", "app.py"]
 
